@@ -1,52 +1,179 @@
-@import 'katex/dist/katex.min.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  * {
+  *, *::before, *::after {
     box-sizing: border-box;
+    margin: 0;
   }
+
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   body {
-    margin: 0;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #FAFAF8;
+    color: #1A1712;
+    line-height: 1.65;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .dark body {
+    background-color: #0D0C09;
+    color: #F5F4F0;
+  }
+
+  /* Accessible focus */
+  :focus-visible {
+    outline: 2px solid #C94A1F;
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* Smooth scrolling only when not reduced-motion */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Typography base */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  p { max-width: 72ch; }
+
+  code, pre, kbd {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img, video, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button { cursor: pointer; }
+
+  /* Selection */
+  ::selection {
+    background-color: #FFC89D;
+    color: #1A1712;
+  }
+  .dark ::selection {
+    background-color: #7D2C12;
+    color: #F5F4F0;
+  }
+}
+
+@layer components {
+  /* Container */
+  .container-site {
+    @apply max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12;
+  }
+
+  /* Reading column */
+  .reading-col {
+    @apply max-w-reading mx-auto;
+  }
+
+  /* Prose — stage page body text */
+  .prose-neuron p {
+    @apply text-base leading-relaxed mb-5 text-stone-800 dark:text-stone-200;
+  }
+  .prose-neuron h3 {
+    @apply text-2xl font-display font-semibold mt-10 mb-4 text-stone-900 dark:text-stone-50;
+  }
+  .prose-neuron strong {
+    @apply font-semibold text-stone-900 dark:text-stone-50;
+  }
+  .prose-neuron em {
+    @apply italic;
+  }
+  .prose-neuron ul {
+    @apply list-none pl-0 space-y-2 mb-5;
+  }
+  .prose-neuron ul li {
+    @apply flex gap-3 text-base text-stone-800 dark:text-stone-200;
+  }
+  .prose-neuron ul li::before {
+    content: '—';
+    @apply text-ember-600 dark:text-ember-400 flex-shrink-0 font-mono;
+  }
+  .prose-neuron ol {
+    @apply list-decimal pl-5 space-y-2 mb-5;
+  }
+  .prose-neuron ol li {
+    @apply text-base text-stone-800 dark:text-stone-200;
+  }
+  .prose-neuron blockquote {
+    @apply border-l-2 border-ember-600 dark:border-ember-400 pl-5 my-6 text-stone-600 dark:text-stone-400 italic;
+  }
+  .prose-neuron code {
+    @apply bg-stone-150 dark:bg-stone-800 text-ember-700 dark:text-ember-300 px-1.5 py-0.5 rounded text-sm;
+  }
+  .prose-neuron pre {
+    @apply bg-stone-900 dark:bg-stone-950 rounded-lg p-5 overflow-x-auto mb-6;
+  }
+  .prose-neuron pre code {
+    @apply bg-transparent text-stone-100 px-0 py-0;
+  }
+
+  /* Stage number — large editorial background numeral */
+  .stage-bg-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 800;
+    font-size: clamp(6rem, 18vw, 14rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    user-select: none;
+    pointer-events: none;
   }
 }
 
 @layer utilities {
-  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
-  .scrollbar-thin::-webkit-scrollbar-track { @apply bg-transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-gray-600 rounded-full; }
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover { @apply bg-gray-400 dark:bg-gray-500; }
-}
+  /* Thin scrollbar */
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; height: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #C8C4B8;
+    border-radius: 99px;
+  }
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb { background: #48433C; }
 
-.katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0.5rem 0;
-  margin: 0.5rem 0;
-}
+  /* Text balance */
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
 
-.katex { font-size: 1.1em; }
-
-/* Smooth view transitions */
-.view-enter {
-  animation: fadeIn 0.15s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-8px); }
-  40%       { transform: translateX(8px); }
-  60%       { transform: translateX(-6px); }
-  80%       { transform: translateX(6px); }
+  /* Hide visually but keep accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }
