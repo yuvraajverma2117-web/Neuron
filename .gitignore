@@ -30,6 +30,7 @@ vendor/
 !*.ts
 !*.tsx
 !*.txt
+!*.json
 !Makefile
 
 # But do ignore these files from movies for now
